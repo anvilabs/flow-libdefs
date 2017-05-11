@@ -1,5 +1,14 @@
 /* @flow */
 
+/* graphql-tag */
+type DocumentNodeType<T: 'query' | 'mutation', I, P> = {
+  type: T,
+  input: I,
+  payload: P,
+};
+type QueryType<I, P> = DocumentNodeType<'query', I, P>;
+type MutationType<I, P> = DocumentNodeType<'mutation', I, P>;
+
 /* Query */
 type FetchPolicyType =
   | 'cache-first'
@@ -79,11 +88,11 @@ type MutatePropsType<OP, I, T> = {
 type ApolloClientType = {|
   watchQuery: any,
   query: <I, T>(options: {|
-    query: gql$QueryType<I, T>,
+    query: QueryType<I, T>,
     /* :: ...QueryOptionsType<I>, */
   |}) => Promise<QueryResultType<T>>,
   mutate: <I, T>(options: {
-    mutation: gql$MutationType<I, T>,
+    mutation: MutationType<I, T>,
     /* :: ...MutateOptionsType<I, T>, */
   }) => Promise<QueryResultType<T>>,
   readQuery: (options: any) => any,
@@ -121,7 +130,7 @@ declare module 'react-apollo' {
 
   /* HOCs */
   declare function graphql<I, T, OP, P>(
-    query: gql$QueryType<I, T>,
+    query: QueryType<I, T>,
     config: {|
       options?: (ownProps: OP) => QueryOptionsType<I>,
       props?: (result: QueryPropsType<OP, I, T>) => P,
@@ -132,7 +141,7 @@ declare module 'react-apollo' {
     |},
   ): HocType<OP, $Supertype<P & OP>>;
   declare function graphql<I, T, OP, P>(
-    query: gql$MutationType<I, T>,
+    query: MutationType<I, T>,
     config: {|
       options?: (ownProps: OP) => MutateOptionsType<I, T>,
       props?: (result: MutatePropsType<OP, I, T>) => P,
