@@ -7,7 +7,17 @@
 
 Incomplete flow [library interface definitions](https://flow.org/en/docs/libdefs/) we use in our projects.
 
-To install them, add the following to your `.flowconfig`:
+## Installation
+
+First, install the package by running:
+
+```bash
+$ yarn add @anvilabs/flow-libdefs --dev
+# or
+$ npm install @anvilabs/flow-libdefs --save-dev
+```
+
+Then add the following to your `.flowconfig`:
 
 ```ini
 ...
