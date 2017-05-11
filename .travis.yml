@@ -1,0 +1,21 @@
+language: node_js
+node_js:
+  - node
+cache:
+  yarn: true
+  directories:
+    - node_modules
+branches:
+  only:
+    - master
+notifications:
+  email: false
+  slack:
+    on_pull_requests: false
+    secure: ebDy2sQ4QLPD2RxDjmiugA/NgbHWiPuwDLmVz4mzCfhu8irQOKyRGiQPHUsCiGCpHLjjyUwLQbnje9LdA050INpz/ZuBu9D18P+4s37Yv63AGZdk8rskTaqF5nd8+yK7PkEeun8Q88XkGFvaXz4CgQMf2SCaYgJASMv0un9nBcyXf2w5VtGDH1pCJfnvTNIdn1melQ9GGYfGsYUSH9RLyQwc+iKUOfLIiXUOoewYSch0SP+mFPk92PMuxi426ziEnIvMDepGVMtli226D2q6mwgrZs90BShSOR3D+mI2m5vOyZQIZoGIPn7rubNED4++vUZJ3MnH2qXKh7Xw2WiIeNTZVI1/ZMq2qHoLYAOxhR6SAoGqlBlWB51nPB+04TK/ryCM91b4yt3lzx+FPj5LnwqI6KLNAk2Rs+qTcDmhyGgS/9DYpmhJScvngyZ/ZjsbQqux3/ZxwgrVnfGy2EmC+OAmWzeKpeQjU80XPJAHU6lggNdyma4dwUyYDsaGuiieXLl4sloDEeqXivAXJ47u2RioOBYfsxsJnyDyqCMwU9RUKnjxBqv1CG9atkg2ZFJdepiZ02IWl6WJsoywCY7qITh6oFoVRE9HpTHdsOK0uARPeSHgDo7FAeP66dpxHyA9fW+IF/vKkOF2FJ6IDGPZQOhBW7oMsOsZ3LCYoGRVDZE=
+before_script:
+  - npm prune
+script:
+  - npm run test
+after_success:
+  - npm run release

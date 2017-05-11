@@ -1,0 +1,68 @@
+{
+  "name": "@anvilabs/flow-libdefs",
+  "version": "0.0.0-development",
+  "description": "Anvilabs' custom libdefs for Flow",
+  "keywords": [
+    "flow",
+    "flowtype",
+    "flow-typed",
+    "libdefs",
+    "definitions"
+  ],
+  "repository": "anvilabs/flow-libdefs",
+  "homepage": "https://github.com/anvilabs/flow-libdefs#readme",
+  "bugs": {
+    "url": "https://github.com/anvilabs/flow-libdefs/issues"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Ayan Yenbekbay",
+    "email": "ayan.yenb@gmail.com",
+    "url": "http://yenbekbay.me"
+  },
+  "engines": {
+    "node": ">=6.0.0"
+  },
+  "files": [
+    "definitions"
+  ],
+  "scripts": {
+    "typecheck": "flow .",
+    "lint": "eslint --cache .",
+    "lint:fix": "eslint --cache --fix .",
+    "test": "run-p --silent typecheck lint",
+    "precommit": "lint-staged",
+    "commitmsg": "validate-commit-msg",
+    "prepush": "nyr test",
+    "release": "semantic-release pre && npm publish && semantic-release post",
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
+  },
+  "lint-staged": {
+    "{app,scripts}/**/*.js": [
+      "eslint --cache --fix",
+      "git add"
+    ]
+  },
+  "config": {
+    "validate-commit-msg": {
+      "maxSubjectLength": 72,
+      "types": "conventional-commit-types"
+    }
+  },
+  "peerDependencies": {
+    "flow-bin": "0.42.0 - 0.46.0"
+  },
+  "devDependencies": {
+    "eslint": "^3.19.0",
+    "eslint-config-anvilabs": "^8.2.1",
+    "flow-bin": "^0.46.0",
+    "husky": "^0.13.3",
+    "lint-staged": "^3.4.1",
+    "lodash": "^4.17.4",
+    "npm-run-all": "^4.0.2",
+    "nyr": "^1.1.0",
+    "prettier": "^1.3.1",
+    "semantic-release": "^6.3.6",
+    "validate-commit-msg": "^2.12.1"
+  }
+}
