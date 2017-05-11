@@ -79,13 +79,13 @@ import _ from 'lodash/fp';
 /**
  * _.fromPairs
  */
-(_.fromPairs([['val', 'a'], ['val', 'b']]): {[key: string]: string});
-(_.fromPairs([['val', 'a'], ['val', 'b']]): {[key: 'val']: string});
-(_.fromPairs(null): {[key: any]: any});
+(_.fromPairs([['val', 'a'], ['val', 'b']]): {+[key: string]: string});
+(_.fromPairs([['val', 'a'], ['val', 'b']]): {+[key: 'val']: string});
+(_.fromPairs(null): {+[key: any]: any});
 // $ExpectError
-(_.fromPairs([['val', 'a'], ['val', 'b']]): {[key: string]: void});
+(_.fromPairs([['val', 'a'], ['val', 'b']]): {+[key: string]: void});
 // $ExpectError
-(_.fromPairs([['val', 'a'], ['val', 'b']]): {[key: void]: string});
+(_.fromPairs([['val', 'a'], ['val', 'b']]): {+[key: void]: string});
 // $ExpectError
 (_.fromPairs(null): Array<any>);
 
@@ -97,6 +97,25 @@ import _ from 'lodash/fp';
 (_.head(['a', 'b', 'c']): string);
 // $ExpectError
 (_.head(['a', 'b', 'c']): void);
+
+/**
+ * _.intersection
+ */
+(_.intersection(['a', 'b'], ['c', 'd']): Array<string>);
+(_.intersection(['a', 'b'])(['c', 'd']): Array<string>);
+(_.intersection(['a', 'b'], null): Array<string>);
+(_.intersection(null, ['c', 'd']): Array<string>);
+(_.intersection(null, null): Array<any>);
+// $ExpectError
+(_.intersection(['a', 'b'], ['c', 'd']): Array<void>);
+// $ExpectError
+(_.intersection(['a', 'b'])(['c', 'd']): Array<void>);
+// $ExpectError
+(_.intersection(['a', 'b'], null): Array<void>);
+// $ExpectError
+(_.intersection(null, ['c', 'd']): Array<void>);
+// $ExpectError
+(_.intersection(null, null): Object);
 
 /**
  * _.join
@@ -122,6 +141,19 @@ import _ from 'lodash/fp';
 (_.pull('a', null): Array<void>);
 
 /**
+ * _.pullAll
+ */
+(_.pullAll(['a'], ['a', 'b', 'c']): Array<string>);
+(_.pullAll(['a'])(['a', 'b', 'c']): Array<string>);
+(_.pullAll(['a'], null): Array<string>);
+// $ExpectError
+(_.pullAll(['a'], ['a', 'b', 'c']): Array<void>);
+// $ExpectError
+(_.pullAll(['a'])(['a', 'b', 'c']): Array<void>);
+// $ExpectError
+(_.pullAll(['a'], null): Array<void>);
+
+/**
  * _.pullAt
  */
 (_.pullAt([0], ['a', 'b', 'c']): Array<string>);
@@ -133,6 +165,22 @@ import _ from 'lodash/fp';
 (_.pullAt([0])(['a', 'b', 'c']): Array<void>);
 // $ExpectError
 (_.pullAt([0], null): Object);
+
+/**
+ * _.slice
+ */
+(_.slice(0, 1, ['a', 'b', 'c']): Array<string>);
+(_.slice(0, 1)(['a', 'b', 'c']): Array<string>);
+(_.slice(0)(1)(['a', 'b', 'c']): Array<string>);
+(_.slice(0, 1, null): Array<any>);
+// $ExpectError
+(_.slice(0, 1, ['a', 'b', 'c']): Array<void>);
+// $ExpectError
+(_.slice(0, 1)(['a', 'b', 'c']): Array<void>);
+// $ExpectError
+(_.slice(0)(1)(['a', 'b', 'c']): Array<void>);
+// $ExpectError
+(_.slice(0, 1, null): Object);
 
 /**
  * _.tail
@@ -220,11 +268,16 @@ import _ from 'lodash/fp';
  */
 (_.includes('a', ['a', 'b', 'c']): boolean);
 (_.includes('a')(['a', 'b', 'c']): boolean);
+(_.includes('a', 'abc'): boolean);
 (_.includes('a', null): boolean);
 // $ExpectError
 (_.includes('a', ['a', 'b', 'c']): void);
 // $ExpectError
 (_.includes('a')(['a', 'b', 'c']): void);
+// $ExpectError
+(_.includes('a', 'abc'): void);
+// $ExpectError
+(_.includes('a', null): void);
 
 /**
  * _.map
@@ -277,11 +330,11 @@ import _ from 'lodash/fp';
  * _.shuffle
  */
 (_.shuffle(['a', 'b', 'c']): Array<string>);
-(_.shuffle({a: 'a', b: 'b', c: 'c'}): {[key: string]: string});
+(_.shuffle({a: 'a', b: 'b', c: 'c'}): {+[key: string]: string});
 // $ExpectError
 (_.shuffle(['a', 'b', 'c']): Array<void>);
 // $ExpectError
-(_.shuffle({a: 'a', b: 'b', c: 'c'}): {[key: string]: void});
+(_.shuffle({a: 'a', b: 'b', c: 'c'}): {+[key: string]: void});
 
 /**
  * _.size
@@ -376,6 +429,13 @@ import _ from 'lodash/fp';
 (_.eq('a')('b'): void);
 
 /**
+ * _.isArray
+ */
+(_.isArray([]): boolean);
+// $ExpectError
+(_.isArray([]): void);
+
+/**
  * _.isEqual
  */
 (_.isEqual({a: 'a'}, {b: 'b'}): boolean);
@@ -434,12 +494,32 @@ import _ from 'lodash/fp';
 /* OBJECT */
 
 /**
+ * _.assign
+ */
+(_.assign({a: 'a'}, {b: 'b'}): {a: 'a', b: 'b'});
+(_.assign({a: 'a'})({b: 'b'}): {a: 'a', b: 'b'});
+(_.assign({a: 'a'}, {a: 'b', b: 'b'}): {a: 'b', b: 'b'});
+// $ExpectError
+(_.assign({a: 'a'}, {b: 'b'}): {a: 'b', b: 'b'});
+// $ExpectError
+(_.assign({a: 'a'})({b: 'b'}): {a: 'b', b: 'b'});
+// $ExpectError
+(_.assign({a: 'a'}, {a: 'b', b: 'b'}): {a: 'a', b: 'b'});
+
+/**
+ * _.assignAll
+ */
+(_.assignAll([{a: 'a'}, {b: 'b'}]): {+[key: string]: string});
+// $ExpectError
+(_.assignAll([{a: 'a'}, {b: 'b'}]): {+[key: string]: number});
+// $ExpectError
+(_.assignAll([{a: 'a'}, {b: 'b'}]): {+[key: number]: string});
+
+/**
  * _.get
  */
 _.get('a', {a: 'a'});
 _.get('a')({a: 'a'});
-// $ExpectError
-_.get(1, {a: 'a'});
 // $ExpectError
 _.get(null, {a: 'a'});
 // $ExpectError
@@ -457,6 +537,18 @@ _.getOr('a', null, {a: 'a'});
 _.getOr('a', 'a', []);
 
 /**
+ * _.invert
+ */
+(_.invert({a: 1, b: 2, c: 3}): {+[key: number]: string});
+(_.invert(null): {+[key: any]: any});
+// $ExpectError
+(_.invert({a: 1, b: 2, c: 3}): {+[key: number]: number});
+// $ExpectError
+(_.invert({a: 1, b: 2, c: 3}): {+[key: string]: string});
+// $ExpectError
+(_.invert(null): Array<any>);
+
+/**
  * _.keys
  */
 (_.keys({a: 'a', b: 'b', c: 'c'}): Array<'a' | 'b' | 'c'>);
@@ -466,6 +558,43 @@ _.getOr('a', 'a', []);
 (_.keys({a: 'a', b: 'b', c: 'c'}): Array<void>);
 // $ExpectError
 (_.keys(null): Array<void>);
+
+/**
+ * _.mapKeys
+ */
+(_.mapKeys(key => 'a', {a: 'a', b: 'b'}): {+[key: 'a']: string});
+(_.mapKeys(key => 'a')({a: 'a', b: 'b'}): {+[key: 'a']: string});
+(_.mapKeys(key => 'a', null): {+[key: 'a']: any});
+// $ExpectError
+(_.mapKeys(key => 'a', {a: 'a', b: 'b'}): {+[key: 'b']: string});
+// $ExpectError
+(_.mapKeys(key => 'a')({a: 'a', b: 'b'}): {+[key: 'b']: string});
+// $ExpectError
+(_.mapKeys(key => 'a', null): {+[key: 'b']: any});
+// $ExpectError
+(_.mapKeys(key => 'a', {a: 'a', b: 'b'}): {+[key: 'a']: number});
+
+/**
+ * _.merge
+ */
+(_.merge({a: 'a'}, {b: 'b'}): {a: 'a', b: 'b'});
+(_.merge({a: 'a'})({b: 'b'}): {a: 'a', b: 'b'});
+(_.merge({a: 'a'}, {a: 'b', b: 'b'}): {a: 'b', b: 'b'});
+// $ExpectError
+(_.merge({a: 'a'}, {b: 'b'}): {a: 'b', b: 'b'});
+// $ExpectError
+(_.merge({a: 'a'})({b: 'b'}): {a: 'b', b: 'b'});
+// $ExpectError
+(_.merge({a: 'a'}, {a: 'b', b: 'b'}): {a: 'a', b: 'b'});
+
+/**
+ * _.mergeAll
+ */
+(_.mergeAll([{a: 'a'}, {b: 'b'}]): {+[key: string]: string});
+// $ExpectError
+(_.mergeAll([{a: 'a'}, {b: 'b'}]): {+[key: string]: number});
+// $ExpectError
+(_.mergeAll([{a: 'a'}, {b: 'b'}]): {+[key: number]: string});
 
 /**
  * _.omit
@@ -552,8 +681,6 @@ _.getOr('a', 'a', []);
 (_.update('a', el => el)({a: 'a', b: 'b', c: 'c'}): Array<any>);
 // $ExpectError
 (_.update('a')(el => el)({a: 'a', b: 'b', c: 'c'}): Array<any>);
-// $ExpectError
-(_.update('d', el => el, {a: 'a', b: 'b', c: 'c'}): Object);
 
 /**
  * _.values
@@ -589,10 +716,18 @@ _.getOr('a', 'a', []);
 (_.has('a')({a: 'a', b: 'b', c: 'c'}): void);
 // $ExpectError
 (_.has('a', null): void);
-// $ExpectError
-(_.has('d', {a: 'a', b: 'b', c: 'c'}): boolean);
 
 /* STRING */
+
+/**
+ * _.camelCase
+ */
+(_.camelCase('a'): string);
+(_.camelCase(null): string);
+// $ExpectError
+(_.camelCase('a'): void);
+// $ExpectError
+(_.camelCase(null): void);
 
 /**
  * _.capitalize
@@ -646,6 +781,16 @@ _.getOr('a', 'a', []);
 (_.replace(null, 'A', 'abc'): string);
 // $ExpectError
 (_.replace('a', null, 'abc'): string);
+
+/**
+ * _.snakeCase
+ */
+(_.snakeCase('a'): string);
+(_.snakeCase(null): string);
+// $ExpectError
+(_.snakeCase('a'): void);
+// $ExpectError
+(_.snakeCase(null): void);
 
 /**
  * _.split
@@ -805,6 +950,30 @@ _.getOr('a', 'a', []);
 (_.flow(() => 'a'): () => 'b');
 
 /**
+ * _.identity
+ */
+(_.identity('a'): 'a');
+(_.identity(true): true);
+// $ExpectError
+(_.identity('a'): 'b');
+// $ExpectError
+(_.identity(true): false);
+
+/**
+ * _.matches
+ */
+_.matches({a: 'a', b: 'b', c: 'c'});
+// $ExpectError
+_.matches('a');
+// $ExpectError
+_.matches([]);
+
+/**
+ * _.noop
+ */
+(_.noop(): void);
+
+/**
  * _.stubTrue
  */
 (_.stubTrue(): true);
@@ -832,6 +1001,16 @@ _.getOr('a', 'a', []);
 (_.overSome([(a: 'a') => true]): (a: 'b') => boolean);
 // $ExpectError
 (_.overSome([(a: 'a') => true]): (a: 'a') => 'a');
+
+/**
+ * _.range
+ */
+(_.range(0, 1): Array<number>);
+(_.range(0)(1): Array<number>);
+// $ExpectError
+(_.range(0, 1): Array<void>);
+// $ExpectError
+(_.range(0)(1): Array<void>);
 
 /**
  * _.times
