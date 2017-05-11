@@ -88,6 +88,15 @@ declare module 'lodash/fp' {
   ): Array<V>;
   declare function tail<V>(arr: ?Array<V>): Array<V>;
   declare function last<V>(arr: ?Array<V>): V;
+  declare function uniq<V>(arr: ?Array<V>): Array<V>;
+  declare function uniqBy<V>(
+    iteratee: IterateeType<V>,
+    ...rest: Array<void>
+  ): (arr: ?Array<V>) => Array<V>;
+  declare function uniqBy<V>(
+    iteratee: IterateeType<V>,
+    arr: ?Array<V>,
+  ): Array<V>;
 
   /* Collection */
   declare function every<V>(

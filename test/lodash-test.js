@@ -196,6 +196,29 @@ import _ from 'lodash/fp';
 // $ExpectError
 (_.last(['a', 'b', 'c']): void);
 
+/**
+ * _.uniq
+ */
+(_.uniq(['a', 'b', 'c']): Array<string>);
+(_.uniq(null): Array<any>);
+// $ExpectError
+(_.uniq(['a', 'b', 'c']): Array<void>);
+// $ExpectError
+(_.uniq(null): Object);
+
+/**
+ * _.uniqBy
+ */
+(_.uniqBy(el => el.val, [{val: 'a'}, {val: 'b'}]): Array<Object>);
+(_.uniqBy(el => el.val)([{val: 'a'}, {val: 'b'}]): Array<Object>);
+(_.uniqBy('val', [{val: 'a'}, {val: 'b'}]): Array<Object>);
+// $ExpectError
+(_.uniqBy(el => el.val, [{val: 'a'}, {val: 'b'}]): Object);
+// $ExpectError
+(_.uniqBy(el => el.val)([{val: 'a'}, {val: 'b'}]): Object);
+// $ExpectError
+(_.uniqBy(el => el.notval, [{val: 'a'}, {val: 'b'}]): Array<Object>);
+
 /* COLLECTION */
 
 /**
