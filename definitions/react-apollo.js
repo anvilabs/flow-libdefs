@@ -160,6 +160,9 @@ declare module 'react-apollo' {
       }>,
     >,
   ): ClassComponentType<D, OP, void>;
+
+  /* SSR */
+  declare function getDataFromTree(jsx: React$Element<any>): Promise<void>;
 }
 
 /* Global helper types */
