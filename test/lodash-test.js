@@ -287,6 +287,27 @@ import _ from 'lodash/fp';
 (_.flatMap(el => [el, el], null): Object);
 
 /**
+ * _.groupBy
+ */
+(_.groupBy('val', [{val: 'a'}, {val: 'b'}, {val: 'c'}]): {
+  +[key: string]: Array<{val: string}>,
+});
+(_.groupBy('val')([{val: 'a'}, {val: 'b'}, {val: 'c'}]): {
+  +[key: string]: Array<{val: string}>,
+});
+(_.groupBy('val', null): {+[key: any]: Array<any>});
+// $ExpectError
+(_.groupBy('val', [{val: 'a'}, {val: 'b'}, {val: 'c'}]): {
+  +[key: string]: Array<void>,
+});
+// $ExpectError
+(_.groupBy('val')([{val: 'a'}, {val: 'b'}, {val: 'c'}]): {
+  +[key: string]: Array<void>,
+});
+// $ExpectError
+(_.groupBy('val', null): Array<any>);
+
+/**
  * _.includes
  */
 (_.includes('a', ['a', 'b', 'c']): boolean);

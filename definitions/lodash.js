@@ -131,6 +131,14 @@ declare module 'lodash/fp' {
     iteratee: (x: V) => R,
     col: ?CollectionType<V>,
   ): Array<VR>;
+  declare function groupBy<V>(
+    iteratee: IterateeType<V>,
+    ...rest: Array<void>
+  ): (col: ?CollectionType<V>) => {+[key: any]: Array<V>};
+  declare function groupBy<V>(
+    iteratee: IterateeType<V>,
+    col: ?CollectionType<V>,
+  ): {+[key: any]: Array<V>};
   declare function includes<V>(
     val: V,
     ...rest: Array<void>
