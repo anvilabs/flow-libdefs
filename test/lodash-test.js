@@ -329,6 +329,7 @@ import _ from 'lodash/fp';
 (_.map(el => el.val, [{val: 'a'}, {val: 'b'}]): Array<string>);
 (_.map(el => el.val)([{val: 'a'}, {val: 'b'}]): Array<string>);
 (_.map('val', [{val: 'a'}, {val: 'b'}]): Array<string>);
+(_.map('val', {a: 'a', b: 'b'}): Array<any>);
 (_.map(el => el.val, null): Array<any>);
 // $ExpectError
 (_.map(el => el.val, [{val: 'a'}, {val: 'b'}]): Array<void>);
@@ -336,6 +337,8 @@ import _ from 'lodash/fp';
 (_.map(el => el.val)([{val: 'a'}, {val: 'b'}]): Array<void>);
 // $ExpectError
 (_.map('val', [{val: 'a'}, {val: 'b'}]): Object);
+// $ExpectError
+(_.map('val', {a: 'a', b: 'b'}): Object);
 // $ExpectError
 (_.map(el => el.val, null): Object);
 

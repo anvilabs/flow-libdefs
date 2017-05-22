@@ -7,12 +7,16 @@ type JsonType =
   | Array<any>
   | {+[key: $Subtype<string | number>]: any};
 type CollectionType<V> = Array<V> | {+[key: any]: V};
+
+type MatchesIterateeType<K: $Subtype<string | number>> = {+[key: K]: any};
+type MatchesPropertyIterateeType<K: $Subtype<string | number>> = [K, any];
 type IterateeType<V, K: $Subtype<string | number> = string, R = any> =
   | ((val: V) => R)
-  | {+[key: K]: any}
-  | [string | number, any]
+  | MatchesIterateeType<K>
+  | MatchesPropertyIterateeType<K>
   | string
   | number;
+
 type PredicateType<
   V,
   K: $Subtype<string | number> = string,
@@ -124,11 +128,11 @@ declare module 'lodash/fp' {
     col: ?CollectionType<V>,
   ): V | void;
   declare function flatMap<V, VR, R: Array<VR> | VR>(
-    iteratee: (x: V) => R,
+    iteratee: ((val: V) => R) | string | number,
     ...rest: Array<void>
   ): (col: ?CollectionType<V>) => Array<VR>;
   declare function flatMap<V, VR, R: Array<VR> | VR>(
-    iteratee: (x: V) => R,
+    iteratee: ((val: V) => R) | string | number,
     col: ?CollectionType<V>,
   ): Array<VR>;
   declare function groupBy<V>(
@@ -148,23 +152,13 @@ declare module 'lodash/fp' {
     col: ?(CollectionType<V> | string),
   ): boolean;
   declare function map<V, VR>(
-    iteratee: (val: V) => VR,
+    iteratee: ((val: V) => VR) | string | number,
     ...rest: Array<void>
-  ): ((col: ?Array<V>) => Array<VR>) &
-    ((col: ?{+[key: any]: V}) => {+[key: any]: VR});
-  declare function map<V, VR>(fn: (val: V) => VR, col: ?Array<V>): Array<VR>;
+  ): (col: ?CollectionType<V>) => Array<VR>;
   declare function map<V, VR>(
-    iteratee: (val: V) => VR,
-    col: ?{+[key: any]: V},
-  ): {+[key: any]: VR};
-  declare function map<K: $Subtype<string | number>>(
-    key: K,
-    ...rest: Array<void>
-  ): (col: ?Array<any>) => Array<any>;
-  declare function map<K: $Subtype<string | number>>(
-    key: K,
-    col: ?Array<any>,
-  ): Array<any>;
+    iteratee: ((val: V) => VR) | string | number,
+    col: ?CollectionType<V>,
+  ): Array<VR>;
   declare function reduce<A, V>(
     iteratee: (acc: A, value: V) => A,
     ...rest: Array<void>
