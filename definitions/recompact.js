@@ -7,7 +7,7 @@ type ComponentType<D, P> =
   | ClassComponentType<D, P, any>;
 type HocType<OP, P, D = *> = (
   component: ComponentType<D, P>,
-) => ClassComponentType<D, OP, void>;
+) => ClassComponentType<D, OP, any>;
 
 declare module 'recompact' {
   /* HOCs */
@@ -16,7 +16,7 @@ declare module 'recompact' {
   ): HocType<P, P>;
   declare function pure<D, OP>(
     component: ComponentType<D, OP>,
-  ): ClassComponentType<D, OP, void>;
+  ): ClassComponentType<D, OP, any>;
 
   /* Utilities */
   declare function compose<A, B>(
@@ -71,8 +71,4 @@ declare module 'recompact' {
 }
 
 /* Global helper types */
-declare type EnhancedComponentType<P, D = void> = ClassComponentType<
-  D,
-  P,
-  void,
->;
+declare type EnhancedComponentType<P, D = void> = ClassComponentType<D, P, any>;
