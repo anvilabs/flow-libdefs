@@ -163,4 +163,6 @@ declare module 'react-apollo' {
 }
 
 /* Global helper types */
+declare type Apollo$QueryType<I, T> = QueryType<I, T>;
+declare type Apollo$MutationType<I, T> = MutationType<I, T>;
 declare type Apollo$ErrorType = ErrorType;
