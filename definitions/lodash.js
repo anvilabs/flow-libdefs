@@ -10,7 +10,7 @@ type CollectionType<V> = Array<V> | {+[key: any]: V};
 
 type MatchesIterateeType<K: $Subtype<string | number>> = {+[key: K]: any};
 type MatchesPropertyIterateeType<K: $Subtype<string | number>> = [K, any];
-type IterateeType<V, K: $Subtype<string | number> = string, R = any> =
+type IterateeType<V, K: $Subtype<string | number> = string | number, R = any> =
   | ((val: V) => R)
   | MatchesIterateeType<K>
   | MatchesPropertyIterateeType<K>
@@ -192,11 +192,11 @@ declare module 'lodash/fp' {
     col: ?Array<V>,
   ): boolean;
   declare function sortBy<V>(
-    iteratees: Array<IterateeType<V, any>> | IterateeType<V, any>,
+    iteratees: Array<IterateeType<V>> | IterateeType<V>,
     ...rest: Array<void>
   ): (col: ?Array<V>) => Array<V>;
   declare function sortBy<V>(
-    iteratees: Array<IterateeType<V, any>> | IterateeType<V, any>,
+    iteratees: Array<IterateeType<V>> | IterateeType<V>,
     col: ?Array<V>,
   ): Array<V>;
 
