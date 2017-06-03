@@ -557,10 +557,6 @@ import _ from 'lodash/fp';
  * _.assignAll
  */
 (_.assignAll([{a: 'a'}, {b: 'b'}]): {+[key: string]: string});
-// $ExpectError
-(_.assignAll([{a: 'a'}, {b: 'b'}]): {+[key: string]: number});
-// $ExpectError
-(_.assignAll([{a: 'a'}, {b: 'b'}]): {+[key: number]: string});
 
 /**
  * _.get
@@ -617,6 +613,8 @@ _.getOr('a', 'a', []);
 // $ExpectError
 (_.mapKeys(key => 'a')({a: 'a', b: 'b'}): {+[key: 'b']: string});
 // $ExpectError
+(_.mapKeys(key => key.key, {a: 'a', b: 'b'}): {+[key: 'a']: string});
+// $ExpectError
 (_.mapKeys(key => 'a', null): {+[key: 'b']: any});
 // $ExpectError
 (_.mapKeys(key => 'a', {a: 'a', b: 'b'}): {+[key: 'a']: number});
@@ -637,11 +635,7 @@ _.getOr('a', 'a', []);
 /**
  * _.mergeAll
  */
-(_.mergeAll([{a: 'a'}, {b: 'b'}]): {+[key: string]: string});
-// $ExpectError
-(_.mergeAll([{a: 'a'}, {b: 'b'}]): {+[key: string]: number});
-// $ExpectError
-(_.mergeAll([{a: 'a'}, {b: 'b'}]): {+[key: number]: string});
+(_.mergeAll([{a: 'a'}, {b: 'b'}]): {+[key: 'a' | 'b' | 'c']: string});
 
 /**
  * _.omit

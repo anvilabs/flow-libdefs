@@ -1,16 +1,11 @@
 /* @flow */
 
-type JsonType =
-  | string
-  | number
-  | boolean
-  | Array<any>
-  | {+[key: $Subtype<string | number>]: any};
+type JsonType = string | number | boolean | Array<any> | {+[key: string]: any};
 type CollectionType<V> = Array<V> | {+[key: any]: V};
 
-type MatchesIterateeType<K: $Subtype<string | number>> = {+[key: K]: any};
-type MatchesPropertyIterateeType<K: $Subtype<string | number>> = [K, any];
-type IterateeType<V, K: $Subtype<string | number> = string | number, R = any> =
+type MatchesIterateeType<K: string> = {+[key: K]: any};
+type MatchesPropertyIterateeType<K: string | number> = [K, any];
+type IterateeType<V, K: string | number = string | number, R = any> =
   | ((val: V) => R)
   | MatchesIterateeType<K>
   | MatchesPropertyIterateeType<K>
@@ -19,7 +14,7 @@ type IterateeType<V, K: $Subtype<string | number> = string | number, R = any> =
 
 type PredicateType<
   V,
-  K: $Subtype<string | number> = string,
+  K: string | number = string,
   R: boolean = *,
 > = IterateeType<V, K, R>;
 
@@ -47,7 +42,7 @@ declare module 'lodash/fp' {
     arr: ?Array<V>,
   ): number;
   declare function flatten<V>(arr: ?Array<Array<V> | V>): Array<V>;
-  declare function fromPairs<K: $Subtype<string | number>, V>(
+  declare function fromPairs<K: string | number, V>(
     arr: ?Array<[K, V]>,
   ): {+[key: K]: V};
   declare function head<V>(arr: ?Array<V>): V | void;
@@ -219,9 +214,9 @@ declare module 'lodash/fp' {
   declare function eq(a: any, ...rest: Array<void>): (b: any) => boolean;
   declare function eq(a: any, b: any): boolean;
   declare function isArray(val: any): boolean;
+  declare function isEmpty(val: any): boolean;
   declare function isEqual(a: any, ...rest: Array<void>): (b: any) => boolean;
   declare function isEqual(a: any, b: any): boolean;
-  declare function isEmpty(val: any): boolean;
   declare function isNaN(val: any): boolean;
   declare function isNil(val: any): boolean;
 
@@ -232,10 +227,7 @@ declare module 'lodash/fp' {
   declare function random(lower?: number, upper?: number): number;
 
   /* Object */
-  declare function assign<
-    A: {+[key: $Subtype<string | number>]: any},
-    B: {+[key: $Subtype<string | number>]: any},
-  >(
+  declare function assign<A: {+[key: string]: any}, B: {+[key: string]: any}>(
     obj: A,
     ...rest: Array<void>
   ): (
@@ -244,76 +236,55 @@ declare module 'lodash/fp' {
     /* :: ...$Exact<A>, */
     /* :: ...$Exact<B>, */
   };
-  declare function assign<
-    A: {+[key: $Subtype<string | number>]: any},
-    B: {+[key: $Subtype<string | number>]: any},
-  >(
+  declare function assign<A: {+[key: string]: any}, B: {+[key: string]: any}>(
     obj: A,
     source: B,
   ): {
     /* :: ...$Exact<A>, */
     /* :: ...$Exact<B>, */
   };
-  declare function assignAll<V, K: $Subtype<string | number>>(
-    sources: Array<{+[key: K]: V}>,
-  ): {+[key: K]: V};
+  declare function assignAll(
+    sources: Array<{+[key: $Subtype<string>]: any}>,
+  ): {+[key: $Subtype<string>]: any};
   declare function get(
     path: string | number,
     ...rest: Array<void>
-  ): (obj: ?{+[key: $Subtype<string | number>]: any}) => any;
-  declare function get(
-    path: string | number,
-    obj: ?{+[key: $Subtype<string | number>]: any},
-  ): any;
+  ): (obj: ?{+[key: string]: any}) => any;
+  declare function get(path: string | number, obj: ?{+[key: string]: any}): any;
   declare function getOr(
     defaultValue: any,
     ...rest: Array<void>
   ): (
     path: string | number,
     ...rest: Array<void>
-  ) => (obj: ?{+[key: $Subtype<string | number>]: any}) => any;
+  ) => (obj: ?{+[key: string]: any}) => any;
   declare function getOr(
     defaultValue: any,
     path: string | number,
     ...rest: Array<void>
-  ): (obj: ?{+[key: $Subtype<string | number>]: any}) => any;
+  ): (obj: ?{+[key: string]: any}) => any;
   declare function getOr(
     defaultValue: any,
     path: string | number,
-    obj: ?{+[key: $Subtype<string | number>]: any},
+    obj: ?{+[key: string]: any},
   ): any;
-  declare function invert<V, K: $Subtype<string | number>, O: {+[key: K]: V}>(
+  declare function invert<V, K, O: {+[key: K]: V}>(
     obj: ?O,
   ): {
     [key: V]: K,
   };
-  declare function keys<
-    O: {+[key: $Subtype<string | number>]: any},
-    K: $Keys<O>,
-  >(
+  declare function keys<O: {+[key: string]: any}, K: $Keys<O>>(
     obj: ?O,
   ): Array<K>;
-  declare function mapKeys<
-    V,
-    O: {+[key: $Subtype<string | number>]: V},
-    K: $Keys<O>,
-    KR: string,
-  >(
+  declare function mapKeys<V, K, O: {+[key: K]: V}, KR: string>(
     iteratee: (key: K) => KR,
+    ...rest: Array<void>
   ): (obj: ?O) => {+[key: KR]: V};
-  declare function mapKeys<
-    V,
-    O: {+[key: $Subtype<string | number>]: V},
-    K: $Keys<O>,
-    KR: string,
-  >(
+  declare function mapKeys<V, K, O: {+[key: K]: V}, KR: string>(
     iteratee: (key: K) => KR,
     obj: ?O,
   ): {+[key: KR]: V};
-  declare function merge<
-    A: {+[key: $Subtype<string | number>]: any},
-    B: {+[key: $Subtype<string | number>]: any},
-  >(
+  declare function merge<A: {+[key: string]: any}, B: {+[key: string]: any}>(
     obj: A,
     ...rest: Array<void>
   ): (
@@ -322,115 +293,76 @@ declare module 'lodash/fp' {
     /* :: ...$Exact<A>, */
     /* :: ...$Exact<B>, */
   };
-  declare function merge<
-    A: {+[key: $Subtype<string | number>]: any},
-    B: {+[key: $Subtype<string | number>]: any},
-  >(
+  declare function merge<A: {+[key: string]: any}, B: {+[key: string]: any}>(
     obj: A,
     source: B,
   ): {
     /* :: ...$Exact<A>, */
     /* :: ...$Exact<B>, */
   };
-  declare function mergeAll<V, K: $Subtype<string | number>>(
-    sources: Array<{+[key: K]: V}>,
-  ): {+[key: K]: V};
-  declare function omit<
-    V,
-    O: {+[key: $Subtype<string | number>]: V},
-    K: $Keys<O>,
-  >(
+  declare function mergeAll(
+    sources: Array<{+[key: $Subtype<string>]: any}>,
+  ): {+[key: $Subtype<string>]: any};
+  declare function omit<V, O: {+[key: string]: V}, K: $Keys<O>>(
     paths: Array<K>,
     ...rest: Array<void>
   ): (obj: ?O) => {+[key: $Supertype<K>]: $Supertype<V>};
-  declare function omit<
-    V,
-    O: {+[key: $Subtype<string | number>]: V},
-    K: $Keys<O>,
-  >(
+  declare function omit<V, O: {+[key: string]: V}, K: $Keys<O>>(
     paths: Array<K>,
     obj: ?O,
   ): {+[key: $Supertype<K>]: $Supertype<V>};
-  declare function omitBy<
-    V,
-    O: {+[key: $Subtype<string | number>]: V},
-    K: $Keys<O>,
-  >(
+  declare function omitBy<V, O: {+[key: string]: V}, K: $Keys<O>>(
     predicate: PredicateType<V, K>,
     ...rest: Array<void>
   ): (obj: ?O) => {+[key: $Supertype<K>]: $Supertype<V>};
-  declare function omitBy<
-    V,
-    O: {+[key: $Subtype<string | number>]: V},
-    K: $Keys<O>,
-  >(
+  declare function omitBy<V, O: {+[key: string]: V}, K: $Keys<O>>(
     predicate: PredicateType<V, K>,
     obj: ?O,
   ): {+[key: $Supertype<K>]: $Supertype<V>};
-  declare function pick<
-    V,
-    O: {+[key: $Subtype<string | number>]: V},
-    K: $Keys<O>,
-  >(
+  declare function pick<V, O: {+[key: string]: V}, K: $Keys<O>>(
     paths: Array<K>,
     ...rest: Array<void>
   ): (obj: ?O) => {+[key: $Supertype<K>]: $Supertype<V>};
-  declare function pick<
-    V,
-    O: {+[key: $Subtype<string | number>]: V},
-    K: $Keys<O>,
-  >(
+  declare function pick<V, O: {+[key: string]: V}, K: $Keys<O>>(
     paths: Array<K>,
     obj: ?O,
   ): {+[key: $Supertype<K>]: $Supertype<V>};
-  declare function pickBy<
-    V,
-    O: {+[key: $Subtype<string | number>]: V},
-    K: $Keys<O>,
-  >(
+  declare function pickBy<V, O: {+[key: string]: V}, K: $Keys<O>>(
     predicate: PredicateType<V, K>,
     ...rest: Array<void>
   ): (obj: ?O) => {+[key: $Supertype<K>]: $Supertype<V>};
-  declare function pickBy<
-    V,
-    O: {+[key: $Subtype<string | number>]: V},
-    K: $Keys<O>,
-  >(
+  declare function pickBy<V, O: {+[key: string]: V}, K: $Keys<O>>(
     predicate: PredicateType<V, K>,
     obj: ?O,
   ): {+[key: $Supertype<K>]: $Supertype<V>};
-  declare function update<K: $Subtype<string | number>>(
+  declare function update<O: {+[key: string]: any}>(
     path: string | number,
     ...rest: Array<void>
   ): (
     updater: (val: any) => any,
     ...rest: Array<void>
-  ) => (obj: ?{+[key: K]: any}) => {+[key: K]: any};
-  declare function update<K: $Subtype<string | number>>(
+  ) => (obj: ?O) => $ObjMap<O, (val) => any>;
+  declare function update<O: {+[key: string]: any}>(
     path: string | number,
     updater: (val: any) => any,
     ...rest: Array<void>
-  ): (obj: ?{+[key: K]: any}) => {+[key: K]: any};
-  declare function update<K: $Subtype<string | number>>(
+  ): (obj: ?O) => $ObjMap<O, (val) => any>;
+  declare function update<O: {+[key: string]: any}>(
     path: string | number,
     updater: (val: any) => any,
-    obj: ?{+[key: K]: any},
-  ): {+[key: K]: any};
+    obj: ?O,
+  ): $ObjMap<O, (val) => any>;
   declare function values<V>(obj: ?{+[key: any]: V}): Array<V>;
-  declare function toPairs<
-    V,
-    O: {+[key: $Subtype<string | number>]: V},
-    K: $Keys<O>,
-  >(
+  declare function toPairs<V, O: {+[key: string]: V}, K: $Keys<O>>(
     obj: ?O,
   ): Array<[K, V]>;
   declare function has(
     path: string | number,
     ...rest: Array<void>
-  ): (obj: ?{+[key: $Subtype<string | number>]: any}) => boolean;
+  ): (obj: ?{+[key: string]: any}) => boolean;
   declare function has(
     path: string | number,
-    obj: ?{+[key: $Subtype<string | number>]: any},
+    obj: ?{+[key: string]: any},
   ): boolean;
 
   /* String */
@@ -571,9 +503,7 @@ declare module 'lodash/fp' {
     ...rest: Array<void>
   ): (a: A) => G;
   declare function identity<V>(val: V): V;
-  declare function matches<S: {+[key: $Subtype<string | number>]: JsonType}>(
-    source: S,
-  ): S;
+  declare function matches<S: {+[key: string]: JsonType}>(source: S): S;
   declare function noop(): void;
   declare function stubTrue(): true;
   declare function overEvery<A>(
