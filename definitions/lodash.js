@@ -33,6 +33,12 @@ declare module 'lodash/fp' {
     ...rest: Array<void>
   ): (vals: ?(Array<V> | V)) => Array<V>;
   declare function concat<V>(arr: ?Array<V>, vals: ?(Array<V> | V)): Array<V>;
+  declare function drop<V>(arr: ?Array<V>): Array<V>;
+  declare function dropRight<V>(
+    n: number,
+    ...rest: Array<void>
+  ): (arr: ?Array<V>) => Array<V>;
+  declare function dropRight<V>(n: number, arr: ?Array<V>): Array<V>;
   declare function findIndex<V>(
     predicate: PredicateType<V>,
     ...rest: Array<void>
@@ -94,6 +100,14 @@ declare module 'lodash/fp' {
   ): (arr: ?Array<V>) => Array<V>;
   declare function uniqBy<V>(
     iteratee: IterateeType<V>,
+    arr: ?Array<V>,
+  ): Array<V>;
+  declare function uniqWith<V>(
+    comparator: (a: V, b: V) => boolean,
+    ...rest: Array<void>
+  ): (arr: ?Array<V>) => Array<V>;
+  declare function uniqWith<V>(
+    comparator: (a: V, b: V) => boolean,
     arr: ?Array<V>,
   ): Array<V>;
 
@@ -219,6 +233,7 @@ declare module 'lodash/fp' {
   declare function isEqual(a: any, b: any): boolean;
   declare function isNaN(val: any): boolean;
   declare function isNil(val: any): boolean;
+  declare function isPlainObject(val: any): boolean;
 
   /* Math */
   declare function sum(arr: ?Array<number>): number;
@@ -284,6 +299,14 @@ declare module 'lodash/fp' {
     iteratee: (key: K) => KR,
     obj: ?O,
   ): {+[key: KR]: V};
+  declare function mapValues<V, K, O: {+[key: K]: V}, VR>(
+    iteratee: (val: V) => VR,
+    ...rest: Array<void>
+  ): (obj: ?O) => {+[key: K]: VR};
+  declare function mapValues<V, K, O: {+[key: K]: V}, VR>(
+    iteratee: (val: V) => VR,
+    obj: ?O,
+  ): {+[key: K]: VR};
   declare function merge<A: {+[key: string]: any}, B: {+[key: string]: any}>(
     obj: A,
     ...rest: Array<void>

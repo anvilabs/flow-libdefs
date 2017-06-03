@@ -50,6 +50,29 @@ import _ from 'lodash/fp';
 (_.concat(null, null): Object);
 
 /**
+ * _.drop
+ */
+(_.drop(['a', 'b', 'c']): Array<string>);
+(_.drop(null): Array<any>);
+// $ExpectError
+(_.drop(['a', 'b', 'c']): Array<void>);
+// $ExpectError
+(_.drop(null): Object);
+
+/**
+ * _.dropRight
+ */
+(_.dropRight(1, ['a', 'b', 'c']): Array<string>);
+(_.dropRight(1)(['a', 'b', 'c']): Array<string>);
+(_.dropRight(1, null): Array<any>);
+// $ExpectError
+(_.dropRight(1, ['a', 'b', 'c']): Array<void>);
+// $ExpectError
+(_.dropRight(1)(['a', 'b', 'c']): Array<void>);
+// $ExpectError
+(_.dropRight(1, null): Object);
+
+/**
  * _.findIndex
  */
 (_.findIndex(el => el.val === 'a', [{val: 'a'}, {val: 'b'}]): number);
@@ -218,6 +241,18 @@ import _ from 'lodash/fp';
 (_.uniqBy(el => el.val)([{val: 'a'}, {val: 'b'}]): Object);
 // $ExpectError
 (_.uniqBy(el => el.notval, [{val: 'a'}, {val: 'b'}]): Array<Object>);
+
+/**
+ * _.uniqWith
+ */
+(_.uniqWith((a, b) => a === b, [{val: 'a'}, {val: 'b'}]): Array<Object>);
+(_.uniqWith((a, b) => a === b)([{val: 'a'}, {val: 'b'}]): Array<Object>);
+// $ExpectError
+(_.uniqWith((a, b) => a === b, [{val: 'a'}, {val: 'b'}]): Object);
+// $ExpectError
+(_.uniqWith((a, b) => a === b)([{val: 'a'}, {val: 'b'}]): Object);
+// $ExpectError
+(_.uniqWith((a, b) => a.notval, [{val: 'a'}, {val: 'b'}]): Array<Object>);
 
 /* COLLECTION */
 
@@ -513,6 +548,13 @@ import _ from 'lodash/fp';
 // $ExpectError
 (_.isNil('a'): void);
 
+/**
+ * _.isPlainObject
+ */
+(_.isPlainObject({}): boolean);
+// $ExpectError
+(_.isPlainObject({}): void);
+
 /* MATH */
 
 /**
@@ -618,6 +660,23 @@ _.getOr('a', 'a', []);
 (_.mapKeys(key => 'a', null): {+[key: 'b']: any});
 // $ExpectError
 (_.mapKeys(key => 'a', {a: 'a', b: 'b'}): {+[key: 'a']: number});
+
+/**
+ * _.mapValues
+ */
+(_.mapValues(val => 'a', {a: 'a', b: 'b'}): {+[key: 'a' | 'b']: 'a'});
+(_.mapValues(val => 'a')({a: 'a', b: 'b'}): {+[key: 'a' | 'b']: 'a'});
+(_.mapValues(val => 'a', null): {+[key: string]: 'a'});
+// $ExpectError
+(_.mapValues(val => 'a', {a: 'a', b: 'b'}): {+[key: 'a' | 'c']: 'a'});
+// $ExpectError
+(_.mapValues(val => 'a')({a: 'a', b: 'b'}): {+[key: 'a' | 'c']: 'a'});
+// $ExpectError
+(_.mapValues(val => 'a', {a: 'a', b: 'b'}): {+[key: 'a' | 'b']: 'c'});
+// $ExpectError
+(_.mapValues(val => 'a', null): {+[key: string]: 'c'});
+
+(_.mapValues(val => 'a', null): {+[key: Object]: 'a'});
 
 /**
  * _.merge
