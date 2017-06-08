@@ -2,9 +2,9 @@
 
 /* graphql-tag */
 type DocumentNodeType<T: 'query' | 'mutation', I, P> = {
-  type: T,
-  input: I,
-  payload: P,
+  __type__: T,
+  __input__: I,
+  __payload__: P,
 };
 type QueryType<I, P> = DocumentNodeType<'query', I, P>;
 type MutationType<I, P> = DocumentNodeType<'mutation', I, P>;
