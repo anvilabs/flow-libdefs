@@ -110,6 +110,7 @@ type ApolloClientType = {|
 type ApolloProviderPropsType = {|
   client: Object,
   store?: Object,
+  children: React$Element<any>,
 |};
 
 /* HOCs */

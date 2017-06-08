@@ -13,7 +13,7 @@ type IntlProviderPropsType = {|
   defaultFormats?: Object,
   textComponent?: string,
   initialNow?: any,
-  children?: React$Element<any>,
+  children: React$Element<any>,
 |};
 
 /* Core */
