@@ -1,7 +1,13 @@
 /* @flow */
 
-type JsonType = string | number | boolean | Array<any> | {+[key: string]: any};
-type CollectionType<V> = Array<V> | {+[key: any]: V};
+type AnyArrayType<V> = Array<V> | $ReadOnlyArray<V>;
+type JsonType =
+  | string
+  | number
+  | boolean
+  | AnyArrayType<any>
+  | {+[key: string]: any};
+type CollectionType<V> = AnyArrayType<V> | {+[key: any]: V};
 
 type MatchesIterateeType<K: string> = {+[key: K]: any};
 type MatchesPropertyIterateeType<K: string | number> = [K, any];
@@ -23,92 +29,109 @@ declare module 'lodash/fp' {
   declare function chunk<V>(
     size: number,
     ...rest: Array<void>
-  ): (arr: ?Array<V>) => Array<Array<V>>;
-  declare function chunk<V>(size: number, arr: ?Array<V>): Array<Array<V>>;
-  declare function compact<V: JsonType | Array<JsonType>>(
-    arr: ?Array<?$Supertype<V>>,
+  ): (arr: ?AnyArrayType<V>) => Array<Array<V>>;
+  declare function chunk<V>(
+    size: number,
+    arr: ?AnyArrayType<V>,
+  ): Array<Array<V>>;
+  declare function compact<V: JsonType | AnyArrayType<JsonType>>(
+    arr: ?AnyArrayType<?$Supertype<V>>,
   ): Array<V>;
   declare function concat<V>(
-    arr: ?Array<V>,
+    arr: ?AnyArrayType<V>,
     ...rest: Array<void>
-  ): (vals: ?(Array<V> | V)) => Array<V>;
-  declare function concat<V>(arr: ?Array<V>, vals: ?(Array<V> | V)): Array<V>;
-  declare function drop<V>(arr: ?Array<V>): Array<V>;
+  ): (vals: ?(AnyArrayType<V> | V)) => Array<V>;
+  declare function concat<V>(
+    arr: ?AnyArrayType<V>,
+    vals: ?(AnyArrayType<V> | V),
+  ): Array<V>;
+  declare function drop<V>(arr: ?AnyArrayType<V>): Array<V>;
   declare function dropRight<V>(
     n: number,
     ...rest: Array<void>
-  ): (arr: ?Array<V>) => Array<V>;
-  declare function dropRight<V>(n: number, arr: ?Array<V>): Array<V>;
+  ): (arr: ?AnyArrayType<V>) => Array<V>;
+  declare function dropRight<V>(n: number, arr: ?AnyArrayType<V>): Array<V>;
   declare function findIndex<V>(
     predicate: PredicateType<V>,
     ...rest: Array<void>
-  ): (arr: ?Array<V>) => number;
+  ): (arr: ?AnyArrayType<V>) => number;
   declare function findIndex<V>(
     predicate: PredicateType<V>,
-    arr: ?Array<V>,
+    arr: ?AnyArrayType<V>,
   ): number;
-  declare function flatten<V>(arr: ?Array<Array<V> | V>): Array<V>;
+  declare function flatten<V>(
+    arr: ?AnyArrayType<AnyArrayType<V> | V>,
+  ): Array<V>;
   declare function fromPairs<K: string | number, V>(
-    arr: ?Array<[K, V]>,
+    arr: ?AnyArrayType<[K, V]>,
   ): {+[key: K]: V};
-  declare function head<V>(arr: ?Array<V>): V | void;
+  declare function head<V>(arr: ?AnyArrayType<V>): V | void;
   declare function intersection<V>(
-    a: ?Array<V>,
+    a: ?AnyArrayType<V>,
     ...rest: Array<void>
-  ): (b: ?Array<V>) => Array<V>;
-  declare function intersection<V>(a: ?Array<V>, b: ?Array<V>): Array<V>;
+  ): (b: ?AnyArrayType<V>) => Array<V>;
+  declare function intersection<V>(
+    a: ?AnyArrayType<V>,
+    b: ?AnyArrayType<V>,
+  ): Array<V>;
   declare function join(
     separator: string,
     ...rest: Array<void>
-  ): (arr: ?Array<any>) => string;
-  declare function join(separator: string, arr: ?Array<any>): string;
+  ): (arr: ?AnyArrayType<any>) => string;
+  declare function join(separator: string, arr: ?AnyArrayType<any>): string;
   declare function pull<V>(
     val: V,
     ...rest: Array<void>
-  ): (arr: ?Array<V>) => Array<V>;
-  declare function pull<V>(val: V, arr: ?Array<V>): Array<V>;
+  ): (arr: ?AnyArrayType<V>) => Array<V>;
+  declare function pull<V>(val: V, arr: ?AnyArrayType<V>): Array<V>;
   declare function pullAll<V>(
-    vals: Array<V>,
+    vals: AnyArrayType<V>,
     ...rest: Array<void>
-  ): (arr: ?Array<V>) => Array<V>;
-  declare function pullAll<V>(vals: Array<V>, arr: ?Array<V>): Array<V>;
+  ): (arr: ?AnyArrayType<V>) => Array<V>;
+  declare function pullAll<V>(
+    vals: AnyArrayType<V>,
+    arr: ?AnyArrayType<V>,
+  ): Array<V>;
   declare function pullAt<V>(
-    indexes: Array<number>,
+    indexes: AnyArrayType<number>,
     ...rest: Array<void>
-  ): (arr: ?Array<V>) => Array<V>;
-  declare function pullAt<V>(indexes: Array<number>, arr: ?Array<V>): Array<V>;
+  ): (arr: ?AnyArrayType<V>) => Array<V>;
+  declare function pullAt<V>(
+    indexes: AnyArrayType<number>,
+    arr: ?AnyArrayType<V>,
+  ): Array<V>;
   declare function slice<V>(
     start: number,
     ...rest: Array<void>
-  ): (end: number) => (arr: ?Array<V>) => Array<V>;
+  ): (end: number) => (arr: ?AnyArrayType<V>) => Array<V>;
   declare function slice<V>(
     start: number,
     end: number,
     ...rest: Array<void>
-  ): (arr: ?Array<V>) => Array<V>;
+  ): (arr: ?AnyArrayType<V>) => Array<V>;
   declare function slice<V>(
     start: number,
     end: number,
-    arr: ?Array<V>,
+    arr: ?AnyArrayType<V>,
   ): Array<V>;
-  declare function tail<V>(arr: ?Array<V>): Array<V>;
-  declare function last<V>(arr: ?Array<V>): V;
-  declare function uniq<V>(arr: ?Array<V>): Array<V>;
+  declare function tail<V>(arr: ?AnyArrayType<V>): Array<V>;
+  declare function last<V>(arr: ?AnyArrayType<V>): V;
+  declare function uniq<V>(arr: ?AnyArrayType<V>): Array<V>;
   declare function uniqBy<V>(
     iteratee: IterateeType<V>,
     ...rest: Array<void>
-  ): (arr: ?Array<V>) => Array<V>;
+  ): (arr: ?AnyArrayType<V>) => Array<V>;
   declare function uniqBy<V>(
     iteratee: IterateeType<V>,
-    arr: ?Array<V>,
+    arr: ?AnyArrayType<V>,
   ): Array<V>;
   declare function uniqWith<V>(
     comparator: (a: V, b: V) => boolean,
     ...rest: Array<void>
-  ): (arr: ?Array<V>) => Array<V>;
+  ): (arr: ?AnyArrayType<V>) => Array<V>;
   declare function uniqWith<V>(
     comparator: (a: V, b: V) => boolean,
-    arr: ?Array<V>,
+    arr: ?AnyArrayType<V>,
   ): Array<V>;
 
   /* Collection */
@@ -136,11 +159,11 @@ declare module 'lodash/fp' {
     predicate: PredicateType<V>,
     col: ?CollectionType<V>,
   ): V | void;
-  declare function flatMap<V, VR, R: Array<VR> | VR>(
+  declare function flatMap<V, VR, R: AnyArrayType<VR> | VR>(
     iteratee: ((val: V) => R) | string | number,
     ...rest: Array<void>
   ): (col: ?CollectionType<V>) => Array<VR>;
-  declare function flatMap<V, VR, R: Array<VR> | VR>(
+  declare function flatMap<V, VR, R: AnyArrayType<VR> | VR>(
     iteratee: ((val: V) => R) | string | number,
     col: ?CollectionType<V>,
   ): Array<VR>;
@@ -171,16 +194,16 @@ declare module 'lodash/fp' {
   declare function reduce<A, V>(
     iteratee: (acc: A, value: V) => A,
     ...rest: Array<void>
-  ): (acc: A, ...rest: Array<void>) => (col: ?Array<V>) => A;
+  ): (acc: A, ...rest: Array<void>) => (col: ?AnyArrayType<V>) => A;
   declare function reduce<A, V>(
     iteratee: (acc: A, value: V) => A,
     acc: A,
     ...rest: Array<void>
-  ): (col: ?Array<V>) => A;
+  ): (col: ?AnyArrayType<V>) => A;
   declare function reduce<A, V>(
     iteratee: (acc: A, value: V) => A,
     acc: A,
-    col: ?Array<V>,
+    col: ?AnyArrayType<V>,
   ): A;
   declare function reject<V, C: CollectionType<V>>(
     predicate: PredicateType<V>,
@@ -195,18 +218,18 @@ declare module 'lodash/fp' {
   declare function some<V>(
     predicate: PredicateType<V>,
     ...rest: Array<void>
-  ): (col: ?Array<V>) => boolean;
+  ): (col: ?AnyArrayType<V>) => boolean;
   declare function some<V>(
     predicate: PredicateType<V>,
-    col: ?Array<V>,
+    col: ?AnyArrayType<V>,
   ): boolean;
   declare function sortBy<V>(
-    iteratees: Array<IterateeType<V>> | IterateeType<V>,
+    iteratees: AnyArrayType<IterateeType<V>> | IterateeType<V>,
     ...rest: Array<void>
-  ): (col: ?Array<V>) => Array<V>;
+  ): (col: ?AnyArrayType<V>) => Array<V>;
   declare function sortBy<V>(
-    iteratees: Array<IterateeType<V>> | IterateeType<V>,
-    col: ?Array<V>,
+    iteratees: AnyArrayType<IterateeType<V>> | IterateeType<V>,
+    col: ?AnyArrayType<V>,
   ): Array<V>;
 
   /* Function */
@@ -236,7 +259,7 @@ declare module 'lodash/fp' {
   declare function isPlainObject(val: any): boolean;
 
   /* Math */
-  declare function sum(arr: ?Array<number>): number;
+  declare function sum(arr: ?AnyArrayType<number>): number;
 
   /* Number */
   declare function random(lower?: number, upper?: number): number;
@@ -259,7 +282,7 @@ declare module 'lodash/fp' {
     /* :: ...$Exact<B>, */
   };
   declare function assignAll(
-    sources: Array<{+[key: $Subtype<string>]: any}>,
+    sources: AnyArrayType<{+[key: $Subtype<string>]: any}>,
   ): {+[key: $Subtype<string>]: any};
   declare function get(
     path: string | number,
@@ -324,14 +347,14 @@ declare module 'lodash/fp' {
     /* :: ...$Exact<B>, */
   };
   declare function mergeAll(
-    sources: Array<{+[key: $Subtype<string>]: any}>,
+    sources: AnyArrayType<{+[key: $Subtype<string>]: any}>,
   ): {+[key: $Subtype<string>]: any};
   declare function omit<V, O: {+[key: string]: V}, K: $Keys<O>>(
-    paths: Array<K>,
+    paths: AnyArrayType<K>,
     ...rest: Array<void>
   ): (obj: ?O) => {+[key: $Supertype<K>]: $Supertype<V>};
   declare function omit<V, O: {+[key: string]: V}, K: $Keys<O>>(
-    paths: Array<K>,
+    paths: AnyArrayType<K>,
     obj: ?O,
   ): {+[key: $Supertype<K>]: $Supertype<V>};
   declare function omitBy<V, O: {+[key: string]: V}, K: $Keys<O>>(
@@ -343,11 +366,11 @@ declare module 'lodash/fp' {
     obj: ?O,
   ): {+[key: $Supertype<K>]: $Supertype<V>};
   declare function pick<V, O: {+[key: string]: V}, K: $Keys<O>>(
-    paths: Array<K>,
+    paths: AnyArrayType<K>,
     ...rest: Array<void>
   ): (obj: ?O) => {+[key: $Supertype<K>]: $Supertype<V>};
   declare function pick<V, O: {+[key: string]: V}, K: $Keys<O>>(
-    paths: Array<K>,
+    paths: AnyArrayType<K>,
     obj: ?O,
   ): {+[key: $Supertype<K>]: $Supertype<V>};
   declare function pickBy<V, O: {+[key: string]: V}, K: $Keys<O>>(
@@ -483,7 +506,9 @@ declare module 'lodash/fp' {
     ...rest: Array<void>
   ): (a: A) => G;
   declare function cond<A, B>(
-    pairs: Array<[(...args: Array<A>) => boolean, (...args: Array<A>) => B]>,
+    pairs: AnyArrayType<
+      [(...args: Array<A>) => boolean, (...args: Array<A>) => B],
+    >,
   ): (...args: Array<A>) => B;
   declare function constant<T>(val: T): () => T;
   declare function flow<A, B>(
@@ -530,10 +555,10 @@ declare module 'lodash/fp' {
   declare function noop(): void;
   declare function stubTrue(): true;
   declare function overEvery<A>(
-    predicates: Array<(...args: Array<A>) => boolean>,
+    predicates: AnyArrayType<(...args: Array<A>) => boolean>,
   ): (...args: Array<A>) => boolean;
   declare function overSome<A>(
-    predicates: Array<(...args: Array<A>) => boolean>,
+    predicates: AnyArrayType<(...args: Array<A>) => boolean>,
   ): (...args: Array<A>) => boolean;
   declare function range(
     start: number,
