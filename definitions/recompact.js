@@ -17,6 +17,18 @@ declare module 'recompact' {
   declare function pure<D, OP>(
     component: ComponentType<D, OP>,
   ): ClassComponentType<D, OP, any>;
+  declare function defaultProps<D, OP, ND: $Shape<OP>>(
+    props: ND,
+  ): (
+    component: ComponentType<D, OP>,
+  ) => ClassComponentType<
+    {|
+      /* :: ...$Exact<D>, */
+      /* :: ...$Exact<ND>, */
+    |},
+    OP,
+    any,
+  >;
 
   /* Utilities */
   declare function compose<A, B>(
