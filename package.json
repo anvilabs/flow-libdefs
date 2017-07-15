@@ -50,18 +50,18 @@
     }
   },
   "peerDependencies": {
-    "flow-bin": "0.42.0 - 0.47.0"
+    "flow-bin": "0.42.0 - 0.50.0"
   },
   "devDependencies": {
     "eslint": "^3.19.0",
-    "eslint-config-anvilabs": "^9.1.1",
-    "flow-bin": "^0.48.0",
-    "husky": "^0.13.4",
-    "lint-staged": "^3.6.1",
+    "eslint-config-anvilabs": "^9.2.0",
+    "flow-bin": "^0.50.0",
+    "husky": "^0.14.3",
+    "lint-staged": "^4.0.1",
     "lodash": "^4.17.4",
     "npm-run-all": "^4.0.2",
     "nyr": "^1.1.0",
-    "prettier": "^1.4.4",
+    "prettier": "^1.5.3",
     "semantic-release": "^6.3.6",
     "validate-commit-msg": "^2.12.2"
   }

@@ -16,4 +16,4 @@ experimental.const_params=true
 suppress_comment=\\(.\\|\n\\)*\\$ExpectError
 
 [version]
-^0.48.0
+^0.50.0
