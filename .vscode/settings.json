@@ -2,10 +2,19 @@
   "editor.insertSpaces": true,
   "editor.rulers": [80],
   "editor.tabSize": 2,
+  "[json]": {
+    "editor.formatOnSave": true
+  },
 
   "eslint.autoFixOnSave": true,
 
+  "files.exclude": {
+    ".eslintcache": true
+  },
+
   "flow.useNPMPackagedFlow": true,
 
-  "javascript.validate.enable": false
+  "javascript.validate.enable": false,
+
+  "prettier.javascriptEnable": []
 }

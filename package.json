@@ -2,13 +2,7 @@
   "name": "@anvilabs/flow-libdefs",
   "version": "0.0.0-development",
   "description": "Anvilabs' custom libdefs for Flow",
-  "keywords": [
-    "flow",
-    "flowtype",
-    "flow-typed",
-    "libdefs",
-    "definitions"
-  ],
+  "keywords": ["flow", "flowtype", "flow-typed", "libdefs", "definitions"],
   "repository": "anvilabs/flow-libdefs",
   "homepage": "https://github.com/anvilabs/flow-libdefs#readme",
   "bugs": {
@@ -23,9 +17,7 @@
   "engines": {
     "node": ">=6.0.0"
   },
-  "files": [
-    "definitions"
-  ],
+  "files": ["definitions"],
   "scripts": {
     "typecheck": "flow .",
     "lint": "eslint --cache .",
@@ -38,10 +30,8 @@
     "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
   "lint-staged": {
-    "{app,scripts}/**/*.js": [
-      "eslint --cache --fix",
-      "git add"
-    ]
+    "{definitions,test}/**/*.js": ["eslint --cache --fix", "git add"],
+    "{*.json,.vscode/*.json}": ["prettier --write", "git add"]
   },
   "config": {
     "validate-commit-msg": {
