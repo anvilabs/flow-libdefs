@@ -26,10 +26,11 @@
     "precommit": "lint-staged",
     "commitmsg": "validate-commit-msg",
     "prepush": "yarn test",
-    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
+    "semantic-release":
+      "semantic-release pre && npm publish && semantic-release post"
   },
   "lint-staged": {
-    "{definitions,test}/**/*.js": ["eslint --cache --fix", "git add"],
+    "{*.js,{definitions,test}/**/*.js}": ["eslint --cache --fix", "git add"],
     "{*.json,.vscode/*.json}": ["prettier --write", "git add"]
   },
   "config": {
@@ -42,15 +43,15 @@
     "flow-bin": "0.42.0 - 0.52.0"
   },
   "devDependencies": {
-    "eslint": "^4.3.0",
-    "eslint-config-anvilabs": "^10.2.0",
-    "flow-bin": "^0.52.0",
+    "eslint": "^4.6.1",
+    "eslint-config-anvilabs": "^11.0.0",
+    "flow-bin": "^0.54.0",
     "husky": "^0.14.3",
-    "lint-staged": "^4.0.2",
+    "lint-staged": "^4.1.1",
     "lodash": "^4.17.4",
-    "npm-run-all": "^4.0.2",
-    "prettier": "^1.5.3",
-    "semantic-release": "^6.3.6",
+    "npm-run-all": "^4.1.1",
+    "prettier": "^1.6.1",
+    "semantic-release": "^7.0.2",
     "validate-commit-msg": "^2.14.0"
   }
 }

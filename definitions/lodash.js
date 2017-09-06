@@ -387,17 +387,17 @@ declare module 'lodash/fp' {
   ): (
     updater: (val: any) => any,
     ...rest: Array<void>
-  ) => (obj: ?O) => $ObjMap<O, (val) => any>;
+  ) => (obj: ?O) => $ObjMap<O, (val: any) => any>;
   declare function update<O: {+[key: string]: any}>(
     path: string | number,
     updater: (val: any) => any,
     ...rest: Array<void>
-  ): (obj: ?O) => $ObjMap<O, (val) => any>;
+  ): (obj: ?O) => $ObjMap<O, (val: any) => any>;
   declare function update<O: {+[key: string]: any}>(
     path: string | number,
     updater: (val: any) => any,
     obj: ?O,
-  ): $ObjMap<O, (val) => any>;
+  ): $ObjMap<O, (val: any) => any>;
   declare function values<V>(obj: ?{+[key: any]: V}): Array<V>;
   declare function toPairs<V, O: {+[key: string]: V}, K: $Keys<O>>(
     obj: ?O,

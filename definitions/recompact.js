@@ -1,12 +1,8 @@
 /* @flow */
 
 type ClassComponentType<D, P, S> = Class<React$Component<D, P, S>>;
-type StatelessComponentType<P> = (props: P) => ?React$Element<any>;
-type ComponentType<D, P> =
-  | StatelessComponentType<P>
-  | ClassComponentType<D, P, any>;
 type HocType<OP, P, D = *> = (
-  component: ComponentType<D, P>,
+  component: React$ComponentType<D, P>,
 ) => ClassComponentType<D, OP, any>;
 
 declare module 'recompact' {
@@ -15,12 +11,12 @@ declare module 'recompact' {
     propKeys: Array<$Keys<$Shape<P>>>,
   ): HocType<P, P>;
   declare function pure<D, OP>(
-    component: ComponentType<D, OP>,
+    component: React$ComponentType<D, OP>,
   ): ClassComponentType<D, OP, any>;
   declare function defaultProps<D, OP, ND: $Shape<OP>>(
     props: ND,
   ): (
-    component: ComponentType<D, OP>,
+    component: React$ComponentType<D, OP>,
   ) => ClassComponentType<
     {|
       /* :: ...$Exact<D>, */
@@ -71,13 +67,13 @@ declare module 'recompact' {
     ...rest: Array<void>
   ): (a: A) => G;
   declare function createEagerElement<P>(
-    type: ComponentType<any, P> | string,
+    type: React$ComponentType<any, P> | string,
     props: ?P,
     children?: ?(React$Element<any> | Array<React$Element<any>>),
   ): React$Element<any>;
   declare function hoistStatics<H: HocType<any, any>>(hoc: H): H;
   declare function wrapDisplayName(
-    C: ComponentType<any, any>,
+    C: React$ComponentType<any, any>,
     wrapperName: string,
   ): string;
 }
